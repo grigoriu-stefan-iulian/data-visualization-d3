@@ -1,0 +1,16 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: blueviolet;
+}
+rect {
+  fill: steelblue;
+  transition: all 500ms;
+}
+rect:hover {
+  fill: green;
+}
