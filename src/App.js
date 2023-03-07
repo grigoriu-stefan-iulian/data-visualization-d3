@@ -8,7 +8,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>Hello SVG</h1>
-      {/* <svg width="598" height="388" fill="steelblue">
+      <svg width="598" height="388" fill="steelblue">
         <rect width="598" height="388" fill="white" />
         <rect x="106" y="30" width="120" height="47" fill="black" />
         <rect x="106" y="306" width="185" height="47" fill="black" />
@@ -26,7 +26,7 @@ export default function App() {
         <text x="40" y="340" fill="black">
           JKL
         </text>
-      </svg> */}
+      </svg>
     </div>
   );
 }
