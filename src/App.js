@@ -8,40 +8,24 @@ export default function App() {
   return (
     <div className="App">
       <h1>Hello SVG</h1>
-      <svg width="500" height={svgHeight}>
-        <rect
-          x="10"
-          y="10"
-          width={svgWidth - strokeWidth}
-          height={svgHeight - strokeWidth}
-          fill="none"
-          stroke="cyan"
-          stroke-width={strokeWidth}
-        ></rect>
-        <circle cx="200" cy="70" r="50" fill="red"></circle>
-        <circle cx="200" cy="70" r="20"></circle>
-        <line
-          x1="0"
-          y1="0"
-          x2="250"
-          y2={svgHeight - strokeWidth * 1.5}
-          stroke="navy"
-          stroke-width={strokeWidth}
-        ></line>
-        <line
-          x1="243"
-          y1={svgHeight - strokeWidth * 1.5}
-          x2={svgWidth - strokeWidth}
-          y2={svgHeight - strokeWidth * 1.5}
-          stroke="navy"
-          stroke-width={strokeWidth}
-        ></line>
-        <path
-          fill="none"
-          stroke="black"
-          stroke-width={strokeWidth}
-          d="M50, 100L50, 200L150, 200"
-        ></path>
+      <svg width="598" height="388" fill="steelblue">
+        <rect width="598" height="388" fill="white" />
+        <rect x="106" y="30" width="120" height="47" fill="black" />
+        <rect x="106" y="306" width="185" height="47" fill="black" />
+        <rect x="106" y="214" width="463" height="47" fill="black" />
+        <rect x="106" y="122" width="277" height="47" fill="black" />
+        <text x="40" y="60" fill="black">
+          ABC
+        </text>
+        <text x="40" y="155" fill="black">
+          DEF
+        </text>
+        <text x="40" y="245" fill="black">
+          GHI
+        </text>
+        <text x="40" y="340" fill="black">
+          JKL
+        </text>
       </svg>
     </div>
   );

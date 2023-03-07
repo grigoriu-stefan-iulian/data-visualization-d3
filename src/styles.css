@@ -8,9 +8,13 @@ body {
   background-color: blueviolet;
 }
 rect {
-  fill: steelblue;
+  /* fill: steelblue; */
   transition: all 500ms;
 }
 rect:hover {
   fill: green;
+}
+text {
+  font-size: 25px;
+  font-family: "Calistoga", cursive;
 }
