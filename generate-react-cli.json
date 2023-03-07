@@ -1,0 +1,21 @@
+{
+  "usesTypeScript": false,
+  "usesCssModule": true,
+  "cssPreprocessor": "css",
+  "testLibrary": "None",
+  "component": {
+    "default": {
+      "customTemplates": {
+        "index": "templates/default/index.js",
+        "component": "templates/component/TemplateName.jsx",
+        "style": "templates/component/TemplateName.module.css"
+      },
+      "path": "src/components",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false,
+      "withIndex": true
+    }
+  }
+}

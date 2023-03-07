@@ -4,11 +4,11 @@
 }
 body {
   margin: 0;
-  overflow: hidden;
-  background-color: blueviolet;
+  /* overflow: hidden; */
+  /* background-color: blueviolet; */
 }
-rect {
-  /* fill: steelblue; */
+/* rect {
+  fill: steelblue;
   transition: all 500ms;
 }
 rect:hover {
@@ -17,4 +17,4 @@ rect:hover {
 text {
   font-size: 25px;
   font-family: "Calistoga", cursive;
-}
+} */
