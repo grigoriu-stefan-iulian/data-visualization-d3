@@ -12,7 +12,7 @@ rect {
   transition: all 500ms;
 }
 rect:hover {
-  fill: green;
+  /* fill: green; */
 }
 text {
   font-size: 25px;
