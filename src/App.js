@@ -35,8 +35,8 @@ svg
   .attr("height", svgHeight)
   .attr("mask", "url(#mask2)");
 
-const renderMask = (maskName, maskFill1, maskFill2) => {
-  const mask = svg.append("mask").attr("id", maskName);
+const renderMask = (selection, id, maskFill1, maskFill2) => {
+  const mask = selection.append("mask").attr("id", id);
 
   mask
     .append("rect")
@@ -45,15 +45,25 @@ const renderMask = (maskName, maskFill1, maskFill2) => {
     .attr("fill", maskFill1);
 
   mask
-    .append("g")
-    .attr("transform", `translate(${svgWidth / 6}, ${svgHeight / 4})`)
-    .append("path")
-    .attr("d", symbol(symbols[2], 20000)())
-    .attr("fill", maskFill2);
+    .selectAll("g")
+    // .attr("x", 50)
+    .data(range(5))
+    .join((enter) =>
+      enter
+        .append("g")
+        .attr(
+          "transform",
+          (d) => `translate(${50 + d * 100}, ${svgHeight / 4})`
+        )
+        .append("path")
+        .attr("d", (d) => symbol(symbols[d], 5000)())
+        .attr("fill", maskFill2)
+    );
 };
 
-renderMask("mask1", "black", "white");
-renderMask("mask2", "white", "black");
+svg
+  .call(renderMask, "mask1", "black", "white")
+  .call(renderMask, "mask2", "white", "black");
 
 export default function App() {
   return (
