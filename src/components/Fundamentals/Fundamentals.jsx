@@ -5,6 +5,16 @@ export default function Fundamentals() {
   const svgHeight = 250;
   const strokeWidth = 20;
 
+  // Old merge pattern for enter - update - exit(.enter .merge .exit)
+  // const circles = svg.selectAll("circle").data(data);
+  // const circlesEnter = circles.enter().append("circle").attr("r", 20);
+
+  // circles
+  //   .merge(circlesEnter)
+  //   .attr("cx", (d) => d.cx)
+  //   .attr("cy", (d) => d.cy);
+  // circles.exit().remove();
+
   // Array operations
   // const array = [1, 5, 2, 6, 4, 7, 8, 2, 4, 4];
   // const entries = [
