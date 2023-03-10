@@ -5,6 +5,79 @@ export default function Fundamentals() {
   const svgHeight = 250;
   const strokeWidth = 20;
 
+  // Array operations
+  // const array = [1, 5, 2, 6, 4, 7, 8, 2, 4, 4];
+  // const entries = [
+  //   { key: "a", value: "aoo" },
+  //   { key: "k", value: "koo" },
+  //   { key: "b", value: "boo" },
+  // ];
+  // entries.sort((a, b) => ascending(a.key, b.key));
+  // entries.sort((a, b) => descending(a.key, b.key));
+
+  // array.sort(ascending);
+
+  // console.log(entries);
+  // console.log(array);
+
+  // SVG Masks + svg.call()
+  // const numberOfRectangles = 25;
+
+  // const svg = select("body")
+  //   .append("svg")
+  //   .attr("width", svgWidth)
+  //   .attr("height", svgHeight);
+
+  // svg
+  //   .append("g")
+  //   .selectAll("rect")
+  //   .data(range(numberOfRectangles))
+  //   .join("rect")
+  //   .attr("y", (d) => d * 20)
+  //   .attr("width", svgWidth)
+  //   .attr("height", 10)
+  //   .attr("mask", "url(#mask1)");
+
+  // svg
+  //   .append("g")
+  //   .selectAll("rect")
+  //   .data(range(numberOfRectangles))
+  //   .join("rect")
+  //   .attr("x", (d) => d * 20)
+  //   .attr("width", 10)
+  //   .attr("height", svgHeight)
+  //   .attr("mask", "url(#mask2)");
+
+  // const renderMask = (selection, id, maskFill1, maskFill2) => {
+  //   const mask = selection.append("mask").attr("id", id);
+
+  //   mask
+  //     .append("rect")
+  //     .attr("width", svgWidth)
+  //     .attr("height", svgHeight)
+  //     .attr("fill", maskFill1);
+
+  //   mask
+  //     .selectAll("g")
+  //     // .attr("x", 50)
+  //     .data(range(5))
+  //     .join((enter) =>
+  //       enter
+  //         .append("g")
+  //         .attr(
+  //           "transform",
+  //           (d) => `translate(${50 + d * 100}, ${svgHeight / 4})`
+  //         )
+  //         .append("path")
+  //         .attr("d", (d) => symbol(symbols[d], 5000)())
+  //         .attr("fill", maskFill2)
+  //     );
+  // };
+
+  // svg
+  //   .call(renderMask, "mask1", "black", "white")
+  //   .call(renderMask, "mask2", "white", "black");
+
   // Lewit Art with D3 and pure JS intro
   // The visual marks that will appear on the page
   // const marks = [];

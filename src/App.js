@@ -1,69 +1,33 @@
-import { select, range, symbols, symbol } from "d3";
+import { select, range, ascending, descending } from "d3";
 
 import "./styles.css";
-
 const svgWidth = window.innerWidth;
 const svgHeight = window.innerHeight;
-const strokeWidth = 20;
-
-console.log(symbol);
-
-const numberOfRectangles = 25;
 
 const svg = select("body")
   .append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight);
 
-svg
-  .append("g")
-  .selectAll("rect")
-  .data(range(numberOfRectangles))
-  .join("rect")
-  .attr("y", (d) => d * 20)
-  .attr("width", svgWidth)
-  .attr("height", 10)
-  .attr("mask", "url(#mask1)");
+let t = 0;
+setInterval(() => {
+  console.log(t);
+  const data = range(30).map((d) => ({
+    id: d,
+    cx: d * 15 + 40,
+    cy: 200 + Math.sin(d * 0.4 + t) * 100,
+  }));
 
-svg
-  .append("g")
-  .selectAll("rect")
-  .data(range(numberOfRectangles))
-  .join("rect")
-  .attr("x", (d) => d * 20)
-  .attr("width", 10)
-  .attr("height", svgHeight)
-  .attr("mask", "url(#mask2)");
+  const circles = svg
+    .selectAll("circle")
+    .data(data)
+    .join("circle")
+    .attr("r", 20)
+    .attr("cx", (d) => d.cx)
+    .attr("cy", (d) => d.cy);
 
-const renderMask = (selection, id, maskFill1, maskFill2) => {
-  const mask = selection.append("mask").attr("id", id);
-
-  mask
-    .append("rect")
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
-    .attr("fill", maskFill1);
-
-  mask
-    .selectAll("g")
-    // .attr("x", 50)
-    .data(range(5))
-    .join((enter) =>
-      enter
-        .append("g")
-        .attr(
-          "transform",
-          (d) => `translate(${50 + d * 100}, ${svgHeight / 4})`
-        )
-        .append("path")
-        .attr("d", (d) => symbol(symbols[d], 5000)())
-        .attr("fill", maskFill2)
-    );
-};
-
-svg
-  .call(renderMask, "mask1", "black", "white")
-  .call(renderMask, "mask2", "white", "black");
+  t = t + 0.1;
+}, 100);
 
 export default function App() {
   return (
