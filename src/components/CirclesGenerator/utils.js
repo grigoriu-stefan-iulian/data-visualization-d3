@@ -2,7 +2,7 @@ import { line, range } from "d3";
 
 export const svgWidth = window.innerWidth;
 export const svgHeight = window.innerHeight;
-export const count = 30;
+export const count = 35;
 
 export const createDataSet = (timeInterval, elementsCount) => {
   return range(elementsCount).map((d) => ({
@@ -12,6 +12,7 @@ export const createDataSet = (timeInterval, elementsCount) => {
   }));
 };
 
+// Generate and animate the circles
 export const circlesGenerator = (selection, data) => {
   selection
     .selectAll("circle")

@@ -16,7 +16,6 @@ export const CirclesGenerator = () => {
     const svg = select("#circles-generator")
       .attr("width", svgWidth)
       .attr("height", svgHeight);
-
     setInterval(() => {
       const data = createDataSet(t, count);
       svg.call(circlesGenerator, data);
