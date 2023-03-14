@@ -1,6 +1,4 @@
-import "./styles.css";
-
-export default function Fundamentals() {
+export function Fundamentals() {
   const svgWidth = 500;
   const svgHeight = 250;
   const strokeWidth = 20;
