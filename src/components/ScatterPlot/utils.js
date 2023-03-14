@@ -1,3 +1,5 @@
+import { axisRight } from "d3";
+
 export const svgWidth = window.innerWidth;
 export const svgHeight = window.innerHeight;
 export const csvUrl = [
@@ -15,3 +17,10 @@ export const parseRow = (d) => ({
   petalWidth: +d.petal_width,
   species: d.species,
 });
+
+export const margin = {
+  top: 20,
+  right: 20,
+  bottom: 50,
+  left: 50,
+};
