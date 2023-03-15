@@ -8,3 +8,7 @@ body {
   overflow: hidden;
   background-color: blueviolet;
 }
+
+.tick text {
+  font-size: 22px;
+}

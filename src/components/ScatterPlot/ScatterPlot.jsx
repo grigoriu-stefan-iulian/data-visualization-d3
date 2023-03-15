@@ -1,7 +1,24 @@
 import { useEffect, useState } from "react";
-import { select, csv, scaleLinear, extent, axisLeft, axisBottom } from "d3";
+import {
+  select,
+  csv,
+  scaleLinear,
+  extent,
+  axisLeft,
+  axisBottom,
+  max,
+} from "d3";
 
-import { svgWidth, svgHeight, csvUrl, parseRow, margin } from "./utils";
+import {
+  svgWidth,
+  svgHeight,
+  csvUrl,
+  parseRow,
+  margin,
+  xValue,
+  yValue,
+  circleRadius,
+} from "./utils";
 
 export const ScatterPlot = () => {
   const [data, setData] = useState([]);
@@ -10,11 +27,9 @@ export const ScatterPlot = () => {
     const data2 = await csv(csvUrl, parseRow);
     setData(data2);
   };
-  const xValue = (d) => d.petalLength;
-  const yValue = (d) => d.sepalLength;
 
   const xScale = scaleLinear()
-    .domain(extent(data, xValue))
+    .domain([0, max(data, xValue)])
     .range([margin.left, svgWidth - margin.right]);
 
   const yScale = scaleLinear()
@@ -40,7 +55,7 @@ export const ScatterPlot = () => {
       .join("circle")
       .attr("cx", (d) => d.x)
       .attr("cy", (d) => d.y)
-      .attr("r", 5);
+      .attr("r", circleRadius);
 
     svg
       .append("g")
@@ -49,7 +64,6 @@ export const ScatterPlot = () => {
 
     svg
       .append("g")
-
       .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
       .call(axisBottom(xScale));
   }, []);

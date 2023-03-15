@@ -1,7 +1,9 @@
-import { axisRight } from "d3";
-
 export const svgWidth = window.innerWidth;
-export const svgHeight = window.innerHeight;
+export const svgHeight = window.innerHeight - 100;
+export const circleRadius = 5;
+export const xValue = (d) => d.petalLength;
+export const yValue = (d) => d.sepalLength;
+
 export const csvUrl = [
   "https://gist.githubusercontent.com/",
   "curran/",
