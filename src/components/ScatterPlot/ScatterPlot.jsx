@@ -61,6 +61,13 @@ export const ScatterPlot = () => {
       .append("g")
       .attr("transform", `translate(${margin.left} 0)`)
       .call(axisLeft(yScale));
+    // const yAxis = axisLeft(yScale); // axisLeft return a function that needs to be called with a group element selection as argument
+    // const yAxisGroup = svg
+    //   .append("g")
+    //   .attr("transform", `translate(0 ${svgHeight - margin.bottom})`);
+    // We call axisLeft with a group element in two ways: using .call on the group selection or simply  with yAxis(yAxisGroup)
+    // yAxisGroup.call(yAxis); // Method 1
+    // yAxis(yAxisGroup); //Method 2
 
     svg
       .append("g")
