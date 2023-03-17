@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { csv } from "d3";
 
-import { csvUrl, parseRow, generateScatterPlot } from "./utils";
+import { generateScatterPlot, getMainData } from "./utils";
 
 export const ScatterPlot = () => {
-  const [data, setData] = useState([]);
-
-  const getMainData = async () => {
-    const fetchedData = await csv(csvUrl, parseRow);
-    setData(fetchedData);
-  };
+  const [plotData, setPlotData] = useState({
+    data: [],
+    isLoading: true,
+  });
 
   useEffect(() => {
-    getMainData();
-
-    generateScatterPlot(data, "scatter-plot");
+    getMainData(setPlotData);
   }, []);
+
+  useEffect(() => {
+    !plotData.isLoading && generateScatterPlot(plotData.data, "scatter-plot");
+  }, [plotData.isLoading]);
 
   return <svg id="scatter-plot" />;
 };

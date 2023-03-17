@@ -1,4 +1,4 @@
-import { select, scaleLinear, extent, axisLeft, axisBottom } from "d3";
+import { select, scaleLinear, extent, axisLeft, axisBottom, csv } from "d3";
 
 export const svgWidth = window.innerWidth;
 export const svgHeight = window.innerHeight - 100;
@@ -22,6 +22,12 @@ export const margin = {
   right: 20,
   bottom: 50,
   left: 50,
+};
+
+export const getMainData = async (setPlotData) => {
+  const data = await csv(csvUrl, parseRow);
+
+  setPlotData({ data, isLoading: false });
 };
 
 export const generateScatterPlot = (data, id) => {
