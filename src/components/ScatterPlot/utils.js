@@ -1,10 +1,21 @@
-import { select, scaleLinear, extent, axisLeft, axisBottom, csv } from "d3";
+import {
+  select,
+  scaleLinear,
+  extent,
+  axisLeft,
+  axisBottom,
+  csv,
+  symbols,
+  symbol,
+  scaleOrdinal,
+} from "d3";
 
 export const svgWidth = window.innerWidth;
 export const svgHeight = window.innerHeight - 100;
 export const circleRadius = 5;
 export const xValue = (d) => d.petalLength;
 export const yValue = (d) => d.sepalLength;
+export const symbolValue = (d) => d.species;
 
 export const csvUrl =
   "https://raw.githubusercontent.com/curran/data/gh-pages/dspl/countries.csv";
@@ -39,6 +50,11 @@ export const generateScatterPlot = (data, id) => {
     .domain(extent(data, yValue))
     .range([svgHeight - margin.bottom, margin.top]);
 
+  const symbolScale = scaleOrdinal()
+    .domain(data.map(symbolValue))
+    .range(symbols);
+  console.log("symbolScale", symbolScale.domain());
+
   const marks = data.map((d) => ({
     x: xScale(xValue(d)),
     y: yScale(yValue(d)),
@@ -49,15 +65,12 @@ export const generateScatterPlot = (data, id) => {
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-  svg
-    .selectAll("circle")
-    .data(marks)
-    .join("circle")
-    .attr("cx", (d) => d.x)
-    .attr("cy", (d) => d.y)
-    .attr("r", circleRadius)
-    .append("title")
-    .text((d) => d.tooltipText);
+  svg.selectAll("path").data(marks).join("path");
+  // .attr("x", (d) => d.x)
+  // .attr("y", (d) => d.y)
+  // .attr("d", (d) => symbolValue(d))
+  // .append("title")
+  // .text((d) => d.tooltipText);
 
   svg
     .append("g")
@@ -93,3 +106,14 @@ export const generateScatterPlot = (data, id) => {
 // We call axisLeft with a group element in two ways: using .call on the group selection or simply  with yAxis(yAxisGroup)
 // yAxisGroup.call(yAxis); // Method 1
 // yAxis(yAxisGroup); //Method 2
+
+// Old svg chart construction
+// svg
+//   .selectAll("circle")
+//   .data(marks)
+//   .join("circle")
+//   .attr("cx", (d) => d.x)
+//   .attr("cy", (d) => d.y)
+//   .attr("r", circleRadius)
+//   .append("title")
+//   .text((d) => d.tooltipText);
