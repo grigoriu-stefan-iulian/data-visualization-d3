@@ -4,59 +4,20 @@ import {
   extent,
   axisLeft,
   axisBottom,
-  csv,
   symbols,
-  symbol,
   scaleOrdinal,
 } from "d3";
+import { config } from "./index";
 
-export const svgWidth = window.innerWidth;
-export const svgHeight = window.innerHeight - 100;
-export const circleRadius = 5;
-export const xValue = (d) => d.petalLength;
-export const yValue = (d) => d.sepalLength;
-export const symbolValue = (d) => d.species;
-const symbolGenerator = symbol();
-
-export const csvUrl = [
-  "https://gist.githubusercontent.com/",
-  "curran/",
-  "a08a1080b88344b0c8a7/",
-  "raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/",
-  "iris.csv",
-].join("");
-
-export const parseRow = (d) => ({
-  sepalLength: +d.sepal_length,
-  sepalWidth: +d.sepal_width,
-  petalLength: +d.petal_length,
-  petalWidth: +d.petal_width,
-  species: d.species,
-});
-
-// export const csvUrl =
-//   "https://raw.githubusercontent.com/curran/data/gh-pages/dspl/countries.csv";
-
-// export const parseRow = (d) => ({
-//   sepalLength: +d.latitude,
-//   sepalWidth: +d.longitude,
-//   petalLength: +d.longitude,
-//   petalWidth: +d.longitude,
-//   species: d.species,
-// });
-
-export const margin = {
-  top: 20,
-  right: 20,
-  bottom: 50,
-  left: 50,
-};
-
-export const getMainData = async (setPlotData) => {
-  const data = await csv(csvUrl, parseRow);
-
-  setPlotData({ data, isLoading: false });
-};
+const {
+  svgWidth,
+  svgHeight,
+  xValue,
+  yValue,
+  symbolValue,
+  symbolGenerator,
+  margin,
+} = config;
 
 export const generateScatterPlot = (data, id) => {
   const xScale = scaleLinear()
@@ -70,8 +31,6 @@ export const generateScatterPlot = (data, id) => {
   const symbolScale = scaleOrdinal()
     .domain(data.map(symbolValue))
     .range(symbols);
-
-  console.log("symbolScale", symbolScale.domain());
 
   const marks = data.map((d) => ({
     x: xScale(xValue(d)),
