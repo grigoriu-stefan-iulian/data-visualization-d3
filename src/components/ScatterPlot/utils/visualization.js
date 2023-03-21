@@ -20,6 +20,11 @@ const {
 } = config;
 
 export const generateScatterPlot = (data, id) => {
+  if (!data.length || !id) {
+    console.log("no data or id provided to ScatterPlot");
+    return;
+  }
+
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
     .range([margin.left, svgWidth - margin.right]);
