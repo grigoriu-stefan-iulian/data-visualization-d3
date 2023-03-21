@@ -16,17 +16,34 @@ export const circleRadius = 5;
 export const xValue = (d) => d.petalLength;
 export const yValue = (d) => d.sepalLength;
 export const symbolValue = (d) => d.species;
+const symbolGenerator = symbol();
 
-export const csvUrl =
-  "https://raw.githubusercontent.com/curran/data/gh-pages/dspl/countries.csv";
+export const csvUrl = [
+  "https://gist.githubusercontent.com/",
+  "curran/",
+  "a08a1080b88344b0c8a7/",
+  "raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/",
+  "iris.csv",
+].join("");
 
 export const parseRow = (d) => ({
-  sepalLength: +d.latitude,
-  sepalWidth: +d.longitude,
-  petalLength: +d.longitude,
-  petalWidth: +d.longitude,
+  sepalLength: +d.sepal_length,
+  sepalWidth: +d.sepal_width,
+  petalLength: +d.petal_length,
+  petalWidth: +d.petal_width,
   species: d.species,
 });
+
+// export const csvUrl =
+//   "https://raw.githubusercontent.com/curran/data/gh-pages/dspl/countries.csv";
+
+// export const parseRow = (d) => ({
+//   sepalLength: +d.latitude,
+//   sepalWidth: +d.longitude,
+//   petalLength: +d.longitude,
+//   petalWidth: +d.longitude,
+//   species: d.species,
+// });
 
 export const margin = {
   top: 20,
@@ -53,24 +70,28 @@ export const generateScatterPlot = (data, id) => {
   const symbolScale = scaleOrdinal()
     .domain(data.map(symbolValue))
     .range(symbols);
+
   console.log("symbolScale", symbolScale.domain());
 
   const marks = data.map((d) => ({
     x: xScale(xValue(d)),
     y: yScale(yValue(d)),
-    tooltipText: `${xValue(d)} - ${yValue(d)}`,
+    tooltipText: `Coords: (${xValue(d)}) : (${yValue(d)})`,
+    path: symbolGenerator.type(symbolScale(symbolValue(d)))(),
   }));
 
   const svg = select(`#${id}`)
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-  svg.selectAll("path").data(marks).join("path");
-  // .attr("x", (d) => d.x)
-  // .attr("y", (d) => d.y)
-  // .attr("d", (d) => symbolValue(d))
-  // .append("title")
-  // .text((d) => d.tooltipText);
+  svg
+    .selectAll("path")
+    .data(marks)
+    .join("path")
+    .attr("d", (d) => d.path)
+    .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
+    .append("title")
+    .text((d) => d.tooltipText);
 
   svg
     .append("g")
@@ -82,22 +103,6 @@ export const generateScatterPlot = (data, id) => {
     .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
     .call(axisBottom(xScale));
 };
-
-// export const csvUrl = [
-//   "https://gist.githubusercontent.com/",
-//   "curran/",
-//   "a08a1080b88344b0c8a7/",
-//   "raw/0e7a9b0a5d22642a06d3d5b9bcbad9890c8ee534/",
-//   "iris.csv",
-// ].join("");
-
-// export const parseRow = (d) => ({
-//   sepalLength: +d.sepal_length,
-//   sepalWidth: +d.sepal_width,
-//   petalLength: +d.petal_length,
-//   petalWidth: +d.petal_width,
-//   species: d.species,
-// });
 
 // const yAxis = axisLeft(yScale); // axisLeft return a function that needs to be called with a group element selection as argument
 // const yAxisGroup = svg
