@@ -4,7 +4,9 @@ export const config = {
   svgWidth: window.innerWidth,
   svgHeight: window.innerHeight - 100,
   circleRadius: 5,
-  symbolGenerator: symbol().size(100),
+  minSymbolSyze: 10,
+  maxSymbolSyze: 150,
+  symbolGenerator: (size) => symbol().size(size),
   margin: {
     top: 20,
     right: 20,
