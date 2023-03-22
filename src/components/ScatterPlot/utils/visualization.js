@@ -49,11 +49,11 @@ export const generateScatterPlot = (data, id) => {
     path: symbolGenerator.type(symbolScale(symbolValue(d)))(),
   }));
 
-  const svg = select(`#${id}`)
+  const selection = select(`#${id}`)
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-  svg
+  selection
     .selectAll("path")
     .data(marks)
     .join("path")
@@ -62,19 +62,26 @@ export const generateScatterPlot = (data, id) => {
     .append("title")
     .text((d) => d.tooltipText);
 
-  svg
-    .append("g")
+  selection
+    .selectAll("g.y-axis")
+    .data([null])
+    .join("g")
+    .attr("class", "y-axis")
     .attr("transform", `translate(${margin.left} 0)`)
     .call(axisLeft(yScale));
 
-  svg
-    .append("g")
+  selection
+    .selectAll("g.x-axis")
+    .data([null])
+    .join("g")
+    .attr("class", "x-axis")
     .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
     .call(axisBottom(xScale));
 };
-const columns = ["sepalLength", "sepalWidth", "petalLength", "petalWidth"];
 
+const columns = ["sepalLength", "sepalWidth", "petalLength", "petalWidth"];
 let i = 0;
+
 setInterval(() => {
   const column = columns[i % columns.length];
   xValue = (d) => d[column];
