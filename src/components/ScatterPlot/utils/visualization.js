@@ -7,9 +7,10 @@ import {
   symbols,
   scaleOrdinal,
 } from "d3";
+
 import { config } from "./index";
 
-const {
+let {
   svgWidth,
   svgHeight,
   xValue,
@@ -19,7 +20,11 @@ const {
   margin,
 } = config;
 
+let data1, id1;
+
 export const generateScatterPlot = (data, id) => {
+  data1 = data;
+  id1 = id;
   if (!data.length || !id) {
     console.log("no data or id provided to ScatterPlot");
     return;
@@ -67,7 +72,15 @@ export const generateScatterPlot = (data, id) => {
     .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
     .call(axisBottom(xScale));
 };
+const columns = ["sepalLength", "sepalWidth", "petalLength", "petalWidth"];
 
+let i = 0;
+setInterval(() => {
+  const column = columns[i % columns.length];
+  xValue = (d) => d[column];
+  generateScatterPlot(data1, id1);
+  i++;
+}, 2000);
 // const yAxis = axisLeft(yScale); // axisLeft return a function that needs to be called with a group element selection as argument
 // const yAxisGroup = svg
 //   .append("g")
