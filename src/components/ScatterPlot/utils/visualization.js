@@ -10,7 +10,7 @@ import {
   transition,
 } from "d3";
 
-import { config } from "./index";
+import { config, columns } from "./index";
 
 let {
   svgWidth,
@@ -86,7 +86,7 @@ export const generateScatterPlot = (data, id) => {
       (update) =>
         update
           .transition(transitionEase)
-          .delay((d, i) => i * 10)
+          .delay((_, i) => i * 10)
           .call(positionCircles(maxSymbolSyze))
     );
 
@@ -108,7 +108,6 @@ export const generateScatterPlot = (data, id) => {
     .call(axisBottom(xScale));
 };
 
-const columns = ["sepalLength", "sepalWidth", "petalLength", "petalWidth"];
 let i = 0;
 
 setInterval(() => {

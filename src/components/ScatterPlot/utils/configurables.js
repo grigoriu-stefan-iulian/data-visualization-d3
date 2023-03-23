@@ -6,7 +6,6 @@ export const config = {
   circleRadius: 5,
   minSymbolSyze: 10,
   maxSymbolSyze: 150,
-  symbolGenerator: (size) => symbol().size(size),
   margin: {
     top: 20,
     right: 20,
@@ -16,7 +15,15 @@ export const config = {
   xValue: (d) => d.petalLength,
   yValue: (d) => d.sepalLength,
   symbolValue: (d) => d.species,
+  symbolGenerator: (size) => symbol().size(size),
 };
+
+export const columns = [
+  "sepalLength",
+  "sepalWidth",
+  "petalLength",
+  "petalWidth",
+];
 
 export const csvUrl = [
   "https://gist.githubusercontent.com/",
