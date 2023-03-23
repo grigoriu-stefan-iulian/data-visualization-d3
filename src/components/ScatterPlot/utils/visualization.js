@@ -26,6 +26,14 @@ let {
 
 let data1, id1;
 
+const positionCircles = (size) => {
+  return (selection) => {
+    selection
+      .attr("d", (d) => d.getPath(size))
+      .attr("transform", (d) => `translate(${d.x}, ${d.y})`);
+  };
+};
+
 export const generateScatterPlot = (data, id) => {
   data1 = data;
   id1 = id;
@@ -67,12 +75,11 @@ export const generateScatterPlot = (data, id) => {
       (enter) =>
         enter
           .append("path")
-          .attr("d", (d) => d.getPath(minSymbolSyze))
-          .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
+          .call(positionCircles(minSymbolSyze))
           .call((enter) =>
             enter
               .transition(transitionEase)
-              .attr("d", (d) => d.getPath(maxSymbolSyze))
+              .call(positionCircles(maxSymbolSyze))
           )
           .append("title")
           .text((d) => d.tooltipText),
@@ -80,10 +87,8 @@ export const generateScatterPlot = (data, id) => {
         update
           .transition(transitionEase)
           .delay((d, i) => i * 10)
-          .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
+          .call(positionCircles(maxSymbolSyze))
     );
-  // .append("title")
-  // .text((d) => d.tooltipText);
 
   selection
     .selectAll("g.y-axis")
