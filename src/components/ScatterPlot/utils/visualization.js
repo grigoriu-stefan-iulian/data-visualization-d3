@@ -64,6 +64,9 @@ export const generateScatterPlot = (data, id) => {
 
   const transitionEase = transition().duration(500).ease(easeLinear);
 
+  const growSymbolRadius = (enter) =>
+    enter.transition(transitionEase).call(positionCircles(maxSymbolSyze));
+
   const selection = select(`#${id}`)
     .attr("width", svgWidth)
     .attr("height", svgHeight);
@@ -76,11 +79,7 @@ export const generateScatterPlot = (data, id) => {
         enter
           .append("path")
           .call(positionCircles(minSymbolSyze))
-          .call((enter) =>
-            enter
-              .transition(transitionEase)
-              .call(positionCircles(maxSymbolSyze))
-          )
+          .call(growSymbolRadius)
           .append("title")
           .text((d) => d.tooltipText),
       (update) =>

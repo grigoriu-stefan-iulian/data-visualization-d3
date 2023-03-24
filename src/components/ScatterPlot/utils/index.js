@@ -1,4 +1,4 @@
-export { config, getMainData } from "./configurables";
+export { config, getMainData, columns } from "./configurables";
 
 export { generateScatterPlot } from "./visualization";
 
