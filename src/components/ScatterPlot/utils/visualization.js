@@ -50,6 +50,12 @@ export const generateScatterPlot = (data, id) => {
     .domain(data.map(symbolValue))
     .range(symbols);
 
+  const transitionEase = transition().duration(500).ease(easeLinear);
+
+  const growSymbolRadius = (enter) => {
+    enter.transition(transitionEase).attr("d", (d) => d.getPath(maxSymbolSyze));
+  };
+
   const marks = data.map((d) => ({
     x: xScale(xValue(d)),
     y: yScale(yValue(d)),
@@ -57,11 +63,6 @@ export const generateScatterPlot = (data, id) => {
     getPath: (size) =>
       symbolGenerator(size).type(symbolScale(symbolValue(d)))(),
   }));
-
-  const transitionEase = transition().duration(500).ease(easeLinear);
-
-  const growSymbolRadius = (enter) =>
-    enter.transition(transitionEase).attr("d", (d) => d.getPath(maxSymbolSyze));
 
   const selection = select(`#${id}`)
     .attr("width", svgWidth)
