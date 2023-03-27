@@ -26,12 +26,8 @@ let {
 
 let data1, id1;
 
-const positionCircles = (size) => {
-  return (selection) => {
-    selection
-      .attr("d", (d) => d.getPath(size))
-      .attr("transform", (d) => `translate(${d.x}, ${d.y})`);
-  };
+const positionSymbols = (selection) => {
+  selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
 
 export const generateScatterPlot = (data, id) => {
@@ -65,7 +61,7 @@ export const generateScatterPlot = (data, id) => {
   const transitionEase = transition().duration(500).ease(easeLinear);
 
   const growSymbolRadius = (enter) =>
-    enter.transition(transitionEase).call(positionCircles(maxSymbolSyze));
+    enter.transition(transitionEase).attr("d", (d) => d.getPath(maxSymbolSyze));
 
   const selection = select(`#${id}`)
     .attr("width", svgWidth)
@@ -78,7 +74,8 @@ export const generateScatterPlot = (data, id) => {
       (enter) =>
         enter
           .append("path")
-          .call(positionCircles(minSymbolSyze))
+          .call(positionSymbols)
+          .attr("d", (d) => d.getPath(minSymbolSyze))
           .call(growSymbolRadius)
           .append("title")
           .text((d) => d.tooltipText),
@@ -86,7 +83,7 @@ export const generateScatterPlot = (data, id) => {
         update
           .transition(transitionEase)
           .delay((_, i) => i * 10)
-          .call(positionCircles(maxSymbolSyze))
+          .call(positionSymbols)
     );
 
   selection
