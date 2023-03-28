@@ -24,19 +24,25 @@ let {
   margin,
 } = config;
 
-let data1, id1;
-
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
 
+const generateMenus = () => {
+  const selection = select("body")
+    .append("div")
+    .attr("class", "menu-container");
+
+  selection.text("Foo test");
+};
+
 export const generateScatterPlot = (data, id) => {
-  data1 = data;
-  id1 = id;
   if (!data.length || !id) {
     console.log("no data or id provided to ScatterPlot");
     return;
   }
+
+  generateMenus();
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -107,12 +113,13 @@ export const generateScatterPlot = (data, id) => {
 
 let i = 0;
 
-setInterval(() => {
-  const column = columns[i % columns.length];
-  xValue = (d) => d[column];
-  generateScatterPlot(data1, id1);
-  i++;
-}, 3000);
+// Old Dynamic chart simulation
+// setInterval(() => {
+//   const column = columns[i % columns.length];
+//   xValue = (d) => d[column];
+//   generateScatterPlot(data1, id1);
+//   i++;
+// }, 3000);
 
 // const yAxis = axisLeft(yScale); // axisLeft return a function that needs to be called with a group element selection as argument
 // const yAxisGroup = svg
