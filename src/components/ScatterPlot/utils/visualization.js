@@ -10,7 +10,7 @@ import {
   transition,
 } from "d3";
 
-import { config, columns } from "./index";
+import { config } from "./index";
 
 let {
   svgWidth,
@@ -28,27 +28,24 @@ const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
 
-const generateMenus = () => {
-  const menuContainer = select("body")
-    .append("div")
-    .attr("class", "menu-container");
+const menuContainer = select("body")
+  .append("div")
+  .attr("class", "menu-container");
 
-  const xMenu = menuContainer.append("div");
-  const yMenu = menuContainer.append("div");
+const xMenu = menuContainer.append("div");
+const yMenu = menuContainer.append("div");
 
-  xMenu
+xMenu.call(generateMenu, "x-menu", "X Axis");
+yMenu.call(generateMenu, "y-menu", "Y Axis");
+
+const generateMenu = (selection, id, label) => {
+  selection
     .selectAll("label")
     .data([null])
     .join("label")
-    .attr("for", "x-menu")
-    .text("X Axis");
+    .attr("for", id)
+    .text(label);
 
-  yMenu
-    .selectAll("label")
-    .data([null])
-    .join("label")
-    .attr("for", "x-menu")
-    .text("Y Axis");
   {
     /* <label for="cars">Choose a car:</label>
 
@@ -59,9 +56,6 @@ const generateMenus = () => {
   <option value="audi">Audi</option>
 </select> */
   }
-
-  // xMenu.text("Foo test");
-  // yMenu.text("Baz test");
 };
 
 export const generateScatterPlot = (data, id) => {
@@ -139,9 +133,8 @@ export const generateScatterPlot = (data, id) => {
     .call(axisBottom(xScale));
 };
 
-let i = 0;
-
 // Old Dynamic chart simulation
+// let i = 0;
 // setInterval(() => {
 //   const column = columns[i % columns.length];
 //   xValue = (d) => d[column];
