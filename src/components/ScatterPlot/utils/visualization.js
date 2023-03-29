@@ -29,11 +29,39 @@ const positionSymbols = (selection) => {
 };
 
 const generateMenus = () => {
-  const selection = select("body")
+  const menuContainer = select("body")
     .append("div")
     .attr("class", "menu-container");
 
-  selection.text("Foo test");
+  const xMenu = menuContainer.append("div");
+  const yMenu = menuContainer.append("div");
+
+  xMenu
+    .selectAll("label")
+    .data([null])
+    .join("label")
+    .attr("for", "x-menu")
+    .text("X Axis");
+
+  yMenu
+    .selectAll("label")
+    .data([null])
+    .join("label")
+    .attr("for", "x-menu")
+    .text("Y Axis");
+  {
+    /* <label for="cars">Choose a car:</label>
+
+<select name="cars" id="cars">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select> */
+  }
+
+  // xMenu.text("Foo test");
+  // yMenu.text("Baz test");
 };
 
 export const generateScatterPlot = (data, id) => {

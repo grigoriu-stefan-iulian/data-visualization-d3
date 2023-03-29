@@ -12,3 +12,13 @@ body {
 .tick text {
   font-size: 22px;
 }
+
+.menu-container {
+  display: flex;
+  gap: 15px;
+  position: fixed;
+  justify-content: flex-end;
+  top: 70px;
+  left: 40px;
+  right: 30px;
+}
