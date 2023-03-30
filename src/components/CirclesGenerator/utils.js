@@ -1,8 +1,10 @@
 import { line, range } from "d3";
 
-export const svgWidth = window.innerWidth;
-export const svgHeight = window.innerHeight;
-export const count = 35;
+export const config = {
+  svgWidth: window.innerWidth,
+  svgHeight: window.innerHeight,
+  count: 35,
+};
 
 export const createDataSet = (timeInterval, elementsCount) => {
   return range(elementsCount).map((d) => ({
@@ -24,7 +26,7 @@ export const circlesGenerator = (selection, data) => {
 
   selection
     .selectAll("path")
-    .data([1])
+    .data([null])
     .join("path")
     .attr("d", lineGenerator(data))
     .attr("fill", "none")

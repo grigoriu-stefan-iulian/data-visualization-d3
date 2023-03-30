@@ -1,10 +1,11 @@
 # Data visualization with D3
-React.js, D3
+- React.js
+- D3
 
-Project created with the intention to learn more regarding topics like:
+Project created to learn more about:
 
 - Data visualization
-- React 18.2 
+- React 18.2
 - D3 older and newer charting patterns
 
-[GitHub](https://github.com/grigoriu-stefan-iulian)
+[Stefan Iulian Grigoriu - GitHub](https://github.com/grigoriu-stefan-iulian)

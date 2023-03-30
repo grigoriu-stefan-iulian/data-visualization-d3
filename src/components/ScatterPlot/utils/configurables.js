@@ -12,18 +12,12 @@ export const config = {
     bottom: 50,
     left: 50,
   },
+  columns: ["sepalLength", "sepalWidth", "petalLength", "petalWidth"],
   xValue: (d) => d.petalLength,
   yValue: (d) => d.sepalLength,
   symbolValue: (d) => d.species,
   symbolGenerator: (size) => symbol().size(size),
 };
-
-export const columns = [
-  "sepalLength",
-  "sepalWidth",
-  "petalLength",
-  "petalWidth",
-];
 
 export const csvUrl = [
   "https://gist.githubusercontent.com/",

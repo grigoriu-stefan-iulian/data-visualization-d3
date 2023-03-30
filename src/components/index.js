@@ -1,5 +1,5 @@
-export { AverageSalaryGraph } from "./Counter/Counter";
-export { CirclesGenerator } from "./CirclesGenerator/CirclesGenerator";
-export { ScatterPlot } from "./ScatterPlot/ScatterPlot";
-export { Fundamentals } from "./Fundamentals/Fundamentals";
+export * from "./Counter/index";
+export * from "./CirclesGenerator/CirclesGenerator";
+export * from "./ScatterPlot/ScatterPlot";
+export * from "./Fundamentals/Fundamentals";
 export * from "./CirclesGenerator/utils";

@@ -22,21 +22,12 @@ let {
   minSymbolSyze,
   maxSymbolSyze,
   margin,
+  columns,
 } = config;
 
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
-
-const menuContainer = select("body")
-  .append("div")
-  .attr("class", "menu-container");
-
-const xMenu = menuContainer.append("div");
-const yMenu = menuContainer.append("div");
-
-xMenu.call(generateMenu, "x-menu", "X Axis");
-yMenu.call(generateMenu, "y-menu", "Y Axis");
 
 const generateMenu = (selection, id, label) => {
   selection
@@ -46,16 +37,19 @@ const generateMenu = (selection, id, label) => {
     .attr("for", id)
     .text(label);
 
-  {
-    /* <label for="cars">Choose a car:</label>
+  const selectInput = selection
+    .selectAll("select")
+    .data([null])
+    .join("select")
+    .attr("name", id)
+    .attr("id", id);
 
-<select name="cars" id="cars">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
-</select> */
-  }
+  selectInput
+    .selectAll("option")
+    .data(columns)
+    .join("option")
+    .attr("value", (d) => d)
+    .text((d) => d);
 };
 
 export const generateScatterPlot = (data, id) => {
@@ -63,8 +57,6 @@ export const generateScatterPlot = (data, id) => {
     console.log("no data or id provided to ScatterPlot");
     return;
   }
-
-  generateMenus();
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -131,6 +123,16 @@ export const generateScatterPlot = (data, id) => {
     .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
     .transition(transitionEase)
     .call(axisBottom(xScale));
+
+  const menuContainer = select("body")
+    .append("div")
+    .attr("class", "menu-container");
+
+  const xMenu = menuContainer.append("div");
+  const yMenu = menuContainer.append("div");
+
+  xMenu.call(generateMenu, "x-menu", "X:");
+  yMenu.call(generateMenu, "y-menu", "Y:");
 };
 
 // Old Dynamic chart simulation

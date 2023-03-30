@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { select, scaleLinear, max } from "d3";
+
 import styles from "./Counter.module.css";
 
 export const AverageSalaryGraph = () => {
