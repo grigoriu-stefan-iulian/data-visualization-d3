@@ -12,7 +12,12 @@ export const config = {
     bottom: 50,
     left: 50,
   },
-  columns: ["sepalLength", "sepalWidth", "petalLength", "petalWidth"],
+  columns: [
+    { value: "sepalLength", label: "Sepal Length" },
+    { value: "sepalWidth", label: "Sepal Width" },
+    { value: "petalLength", label: "Petal Length" },
+    { value: "petalWidth", label: "Petal Width" },
+  ],
   xValue: (d) => d.petalLength,
   yValue: (d) => d.sepalLength,
   symbolValue: (d) => d.species,

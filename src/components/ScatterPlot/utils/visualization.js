@@ -8,6 +8,7 @@ import {
   scaleOrdinal,
   easeLinear,
   transition,
+  dispatch,
 } from "d3";
 
 import { config } from "./index";
@@ -30,6 +31,8 @@ const positionSymbols = (selection) => {
 };
 
 const generateMenu = (selection, id, label) => {
+  const listeners = dispatch("change");
+  
   selection
     .selectAll("label")
     .data([null])
@@ -48,8 +51,8 @@ const generateMenu = (selection, id, label) => {
     .selectAll("option")
     .data(columns)
     .join("option")
-    .attr("value", (d) => d)
-    .text((d) => d);
+    .attr("value", (d) => d.value)
+    .text((d) => d.label);
 };
 
 export const generateScatterPlot = (data, id) => {
