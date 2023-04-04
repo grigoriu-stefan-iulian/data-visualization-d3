@@ -32,7 +32,9 @@ const positionSymbols = (selection) => {
 
 const generateMenu = (selection, id, label) => {
   const listeners = dispatch("change");
-  // listeners.on.apply();
+  // listeners.on.apply(listeners, (value) => {
+  //   console.log("value:", value);
+  // });
 
   selection
     .selectAll("label")
@@ -48,7 +50,7 @@ const generateMenu = (selection, id, label) => {
     .attr("name", id)
     .attr("id", id)
     .on("change", (event) => {
-      console.log("event", event);
+      listeners.call("change", null, event.target.value);
     });
 
   selectInput
