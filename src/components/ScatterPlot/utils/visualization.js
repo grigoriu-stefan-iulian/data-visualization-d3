@@ -32,10 +32,11 @@ const positionSymbols = (selection) => {
 
 const generateMenu = (selection, id, label) => {
   const listeners = dispatch("change");
-  // listeners.on.apply(listeners, (value) => {
-  //   console.log("value:", value);
+  // listeners.on.apply("change", null, (column) => {
+  //   console.log("column:", column);
   // });
-
+  
+  console.log(listeners.on);
   selection
     .selectAll("label")
     .data([null])
@@ -140,7 +141,14 @@ export const generateScatterPlot = (data, id) => {
   const xMenu = menuContainer.append("div");
   const yMenu = menuContainer.append("div");
 
-  xMenu.call(generateMenu, "x-menu", "X:");
+  xMenu.call(
+    generateMenu, 
+    "x-menu", 
+    "X:",
+    () => {
+      //find a way to re-render the chart 
+    }
+    );
   yMenu.call(generateMenu, "y-menu", "Y:");
 };
 
