@@ -26,17 +26,20 @@ let {
   columns,
 } = config;
 
+let configXValue = xValue;
+
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
 
-const generateMenu = (selection, id, label) => {
-  const listeners = dispatch("change");
+const generateMenu = (selection, id, label, callback) => {
+  // const listeners = dispatch("change");
   // listeners.on.apply("change", null, (column) => {
   //   console.log("column:", column);
   // });
-  
-  console.log(listeners.on);
+
+  // console.log(listeners.on);
+
   selection
     .selectAll("label")
     .data([null])
@@ -51,7 +54,9 @@ const generateMenu = (selection, id, label) => {
     .attr("name", id)
     .attr("id", id)
     .on("change", (event) => {
-      listeners.call("change", null, event.target.value);
+      console.log("inside on change");
+      // listeners.call("change", null, event.target.value);
+      callback(event.target.value);
     });
 
   selectInput
@@ -68,71 +73,76 @@ export const generateScatterPlot = (data, id) => {
     return;
   }
 
-  const xScale = scaleLinear()
-    .domain(extent(data, xValue))
-    .range([margin.left, svgWidth - margin.right]);
-
-  const yScale = scaleLinear()
-    .domain(extent(data, yValue))
-    .range([svgHeight - margin.bottom, margin.top]);
-
-  const symbolScale = scaleOrdinal()
-    .domain(data.map(symbolValue))
-    .range(symbols);
-
-  const transitionEase = transition().duration(500).ease(easeLinear);
-
-  const growSymbolRadius = (enter) => {
-    enter.transition(transitionEase).attr("d", (d) => d.getPath(maxSymbolSyze));
-  };
-
-  const marks = data.map((d) => ({
-    x: xScale(xValue(d)),
-    y: yScale(yValue(d)),
-    tooltipText: `Coords: (${xValue(d)}) : (${yValue(d)})`,
-    getPath: (size) =>
-      symbolGenerator(size).type(symbolScale(symbolValue(d)))(),
-  }));
-
-  const selection = select(`#${id}`)
+  const svg = select(`#${id}`)
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-  selection
-    .selectAll("path")
-    .data(marks)
-    .join(
-      (enter) =>
-        enter
-          .append("path")
-          .call(positionSymbols)
-          .attr("d", (d) => d.getPath(minSymbolSyze))
-          .call(growSymbolRadius)
-          .append("title")
-          .text((d) => d.tooltipText),
-      (update) =>
-        update
-          .transition(transitionEase)
-          .delay((_, i) => i * 10)
-          .call(positionSymbols)
-    );
+  const renderPlot = (selection) => {
+    const xScale = scaleLinear()
+      .domain(extent(data, configXValue))
+      .range([margin.left, svgWidth - margin.right]);
 
-  selection
-    .selectAll("g.y-axis")
-    .data([null])
-    .join("g")
-    .attr("class", "y-axis")
-    .attr("transform", `translate(${margin.left} 0)`)
-    .call(axisLeft(yScale));
+    const yScale = scaleLinear()
+      .domain(extent(data, yValue))
+      .range([svgHeight - margin.bottom, margin.top]);
 
-  selection
-    .selectAll("g.x-axis")
-    .data([null])
-    .join("g")
-    .attr("class", "x-axis")
-    .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
-    .transition(transitionEase)
-    .call(axisBottom(xScale));
+    const symbolScale = scaleOrdinal()
+      .domain(data.map(symbolValue))
+      .range(symbols);
+
+    const transitionEase = transition().duration(500).ease(easeLinear);
+    const growSymbolRadius = (enter) => {
+      enter
+        .transition(transitionEase)
+        .attr("d", (d) => d.getPath(maxSymbolSyze));
+    };
+
+    const marks = data.map((d) => ({
+      x: xScale(configXValue(d)),
+      y: yScale(yValue(d)),
+      tooltipText: `Coords: (${configXValue(d)}) : (${yValue(d)})`,
+      getPath: (size) =>
+        symbolGenerator(size).type(symbolScale(symbolValue(d)))(),
+    }));
+
+    selection
+      .selectAll("path")
+      .data(marks)
+      .join(
+        (enter) =>
+          enter
+            .append("path")
+            .call(positionSymbols)
+            .attr("d", (d) => d.getPath(minSymbolSyze))
+            .call(growSymbolRadius)
+            .append("title")
+            .text((d) => d.tooltipText),
+        (update) =>
+          update
+            .transition(transitionEase)
+            .delay((_, i) => i * 10)
+            .call(positionSymbols)
+      );
+
+    selection
+      .selectAll("g.y-axis")
+      .data([null])
+      .join("g")
+      .attr("class", "y-axis")
+      .attr("transform", `translate(${margin.left} 0)`)
+      .call(axisLeft(yScale));
+
+    selection
+      .selectAll("g.x-axis")
+      .data([null])
+      .join("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0 ${svgHeight - margin.bottom})`)
+      .transition(transitionEase)
+      .call(axisBottom(xScale));
+  };
+
+  svg.call(renderPlot);
 
   const menuContainer = select("body")
     .append("div")
@@ -141,14 +151,12 @@ export const generateScatterPlot = (data, id) => {
   const xMenu = menuContainer.append("div");
   const yMenu = menuContainer.append("div");
 
-  xMenu.call(
-    generateMenu, 
-    "x-menu", 
-    "X:",
-    () => {
-      //find a way to re-render the chart 
-    }
-    );
+  xMenu.call(generateMenu, "x-menu", "X:", (column) => {
+    //find a way to re-render the chart
+    console.log("column", column);
+    configXValue = (d) => d[column];
+    svg.call(renderPlot);
+  });
   yMenu.call(generateMenu, "y-menu", "Y:");
 };
 
