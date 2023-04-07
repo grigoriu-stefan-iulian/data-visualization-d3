@@ -18,7 +18,7 @@ export const config = {
     { value: "petalLength", label: "Petal Length" },
     { value: "petalWidth", label: "Petal Width" },
   ],
-  xValue: (d) => d.petalLength,
+  xValue: (d) => d.sepalLength,
   yValue: (d) => d.sepalLength,
   symbolValue: (d) => d.species,
   symbolGenerator: (size) => symbol().size(size),

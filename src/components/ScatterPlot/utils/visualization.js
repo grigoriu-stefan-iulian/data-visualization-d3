@@ -27,6 +27,7 @@ let {
 } = config;
 
 let configXValue = xValue;
+let configYValue = yValue;
 
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
@@ -83,7 +84,7 @@ export const generateScatterPlot = (data, id) => {
       .range([margin.left, svgWidth - margin.right]);
 
     const yScale = scaleLinear()
-      .domain(extent(data, yValue))
+      .domain(extent(data, configYValue))
       .range([svgHeight - margin.bottom, margin.top]);
 
     const symbolScale = scaleOrdinal()
@@ -99,8 +100,8 @@ export const generateScatterPlot = (data, id) => {
 
     const marks = data.map((d) => ({
       x: xScale(configXValue(d)),
-      y: yScale(yValue(d)),
-      tooltipText: `Coords: (${configXValue(d)}) : (${yValue(d)})`,
+      y: yScale(configYValue(d)),
+      tooltipText: `Coords: (${configXValue(d)}) : (${configYValue(d)})`,
       getPath: (size) =>
         symbolGenerator(size).type(symbolScale(symbolValue(d)))(),
     }));
@@ -130,6 +131,7 @@ export const generateScatterPlot = (data, id) => {
       .join("g")
       .attr("class", "y-axis")
       .attr("transform", `translate(${margin.left} 0)`)
+      .transition(transitionEase)
       .call(axisLeft(yScale));
 
     selection
@@ -157,7 +159,12 @@ export const generateScatterPlot = (data, id) => {
     configXValue = (d) => d[column];
     svg.call(renderPlot);
   });
-  yMenu.call(generateMenu, "y-menu", "Y:");
+  yMenu.call(generateMenu, "y-menu", "Y:", (column) => {
+    //find a way to re-render the chart
+    console.log("column", column);
+    configYValue = (d) => d[column];
+    svg.call(renderPlot);
+  });
 };
 
 // Old Dynamic chart simulation
