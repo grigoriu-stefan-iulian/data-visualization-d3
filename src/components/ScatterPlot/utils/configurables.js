@@ -17,6 +17,7 @@ export const config = {
     { value: "sepalWidth", label: "Sepal Width" },
     { value: "petalLength", label: "Petal Length" },
     { value: "petalWidth", label: "Petal Width" },
+    { value: "species", label: "Species" },
   ],
   xValue: (d) => d.sepalLength,
   yValue: (d) => d.sepalLength,

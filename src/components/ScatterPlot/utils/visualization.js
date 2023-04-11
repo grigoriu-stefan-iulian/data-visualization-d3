@@ -1,6 +1,7 @@
 import {
   select,
   scaleLinear,
+  scalePoint,
   extent,
   axisLeft,
   axisBottom,
@@ -79,10 +80,15 @@ export const generateScatterPlot = (data, id) => {
     .attr("height", svgHeight);
 
   const renderPlot = (selection) => {
-    // const xScale = xType === 'categorical' ? scalePoint() : scaleLinear()
-    const xScale = scaleLinear()
-      .domain(extent(data, configXValue))
+    // const xScale = xType === "categorical" ? scalePoint() : scaleLinear();
+
+    const xScale = scalePoint()
+      .domain(data.map(configXValue))
       .range([margin.left, svgWidth - margin.right]);
+
+    // const xScale = scaleLinear()
+    //   .domain(extent(data, configXValue))
+    //   .range([margin.left, svgWidth - margin.right]);
 
     const yScale = scaleLinear()
       .domain(extent(data, configYValue))
