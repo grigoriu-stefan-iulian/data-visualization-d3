@@ -29,6 +29,8 @@ let {
 
 let configXValue = xValue;
 let configYValue = yValue;
+let xType = "numerical";
+let yType = "numerical";
 
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
@@ -80,19 +82,19 @@ export const generateScatterPlot = (data, id) => {
     .attr("height", svgHeight);
 
   const renderPlot = (selection) => {
-    // const xScale = xType === "categorical" ? scalePoint() : scaleLinear();
+    console.log("xType", xType);
+    console.log("yType", yType);
+    const xScale =
+      xType === "categorical"
+        ? scalePoint().domain(data.map(configXValue)).padding(0.2)
+        : scaleLinear().domain(extent(data, configXValue));
+    xScale.range([margin.left, svgWidth - margin.right]);
 
-    const xScale = scalePoint()
-      .domain(data.map(configXValue))
-      .range([margin.left, svgWidth - margin.right]);
-
-    // const xScale = scaleLinear()
-    //   .domain(extent(data, configXValue))
-    //   .range([margin.left, svgWidth - margin.right]);
-
-    const yScale = scaleLinear()
-      .domain(extent(data, configYValue))
-      .range([svgHeight - margin.bottom, margin.top]);
+    const yScale =
+      yType === "categorical"
+        ? scalePoint().domain(data.map(configYValue)).padding(0.2)
+        : scaleLinear().domain(extent(data, configYValue));
+    yScale.range([svgHeight - margin.bottom, margin.top]);
 
     const symbolScale = scaleOrdinal()
       .domain(data.map(symbolValue))
@@ -164,12 +166,22 @@ export const generateScatterPlot = (data, id) => {
     //find a way to re-render the chart
     console.log("column", column);
     configXValue = (d) => d[column];
+    if (column === "species") {
+      xType = "categorical";
+    } else {
+      xType = "numerical";
+    }
     svg.call(renderPlot);
   });
   yMenu.call(generateMenu, "y-menu", "Y:", (column) => {
     //find a way to re-render the chart
     console.log("column", column);
     configYValue = (d) => d[column];
+    if (column === "species") {
+      yType = "categorical";
+    } else {
+      yType = "numerical";
+    }
     svg.call(renderPlot);
   });
 };
@@ -240,3 +252,8 @@ export const generateScatterPlot = (data, id) => {
 //       .transition(transitionEase)
 //       .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
 // );
+
+// old xScale
+// const xScale = scaleLinear()
+//   .domain(extent(data, configXValue))
+//   .range([margin.left, svgWidth - margin.right]);
