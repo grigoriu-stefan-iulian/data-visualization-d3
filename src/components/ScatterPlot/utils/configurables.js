@@ -10,7 +10,7 @@ export const config = {
     top: 20,
     right: 20,
     bottom: 50,
-    left: 50,
+    left: 110,
   },
   columns: [
     { value: "sepalLength", label: "Sepal Length" },
@@ -24,6 +24,11 @@ export const config = {
   symbolValue: (d) => d.species,
   symbolGenerator: (size) => symbol().size(size),
 };
+
+const columnToLabel = new Map(
+  config.columns.map(({ value, label }) => [value, label])
+);
+console.log(columnToLabel);
 
 export const csvUrl = [
   "https://gist.githubusercontent.com/",
