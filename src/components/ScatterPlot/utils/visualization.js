@@ -9,7 +9,6 @@ import {
   scaleOrdinal,
   easeLinear,
   transition,
-  dispatch,
 } from "d3";
 
 import { config } from "./index";
@@ -17,8 +16,6 @@ import { config } from "./index";
 let {
   svgWidth,
   svgHeight,
-  xValue,
-  yValue,
   symbolValue,
   symbolGenerator,
   minSymbolSyze,
@@ -27,23 +24,11 @@ let {
   columns,
 } = config;
 
-let configXValue = xValue;
-let configYValue = yValue;
-let xType = "numerical";
-let yType = "numerical";
-
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
 
 const generateMenu = (selection, id, label, callback) => {
-  // const listeners = dispatch("change");
-  // listeners.on.apply("change", null, (column) => {
-  //   console.log("column:", column);
-  // });
-
-  // console.log(listeners.on);
-
   selection
     .selectAll("label")
     .data([null])
@@ -58,8 +43,6 @@ const generateMenu = (selection, id, label, callback) => {
     .attr("name", id)
     .attr("id", id)
     .on("change", (event) => {
-      console.log("inside on change");
-      // listeners.call("change", null, event.target.value);
       callback(event.target.value);
     });
 
@@ -77,21 +60,24 @@ export const generateScatterPlot = (data, id) => {
     return;
   }
 
+  let xColumn = "sepalLength";
+  let yColumn = "sepalLength";
+  let configXValue = (d) => d[xColumn];
+  let configYValue = (d) => d[yColumn];
+
   const svg = select(`#${id}`)
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
   const renderPlot = (selection) => {
-    console.log("xType", xType);
-    console.log("yType", yType);
     const xScale =
-      xType === "categorical"
+      xColumn === "species"
         ? scalePoint().domain(data.map(configXValue)).padding(0.2)
         : scaleLinear().domain(extent(data, configXValue));
     xScale.range([margin.left, svgWidth - margin.right]);
 
     const yScale =
-      yType === "categorical"
+      yColumn === "species"
         ? scalePoint().domain(data.map(configYValue)).padding(0.2)
         : scaleLinear().domain(extent(data, configYValue));
     yScale.range([svgHeight - margin.bottom, margin.top]);
@@ -163,25 +149,11 @@ export const generateScatterPlot = (data, id) => {
   const yMenu = menuContainer.append("div");
 
   xMenu.call(generateMenu, "x-menu", "X:", (column) => {
-    //find a way to re-render the chart
-    console.log("column", column);
-    configXValue = (d) => d[column];
-    if (column === "species") {
-      xType = "categorical";
-    } else {
-      xType = "numerical";
-    }
+    xColumn = column;
     svg.call(renderPlot);
   });
   yMenu.call(generateMenu, "y-menu", "Y:", (column) => {
-    //find a way to re-render the chart
-    console.log("column", column);
-    configYValue = (d) => d[column];
-    if (column === "species") {
-      yType = "categorical";
-    } else {
-      yType = "numerical";
-    }
+    yColumn = column;
     svg.call(renderPlot);
   });
 };
