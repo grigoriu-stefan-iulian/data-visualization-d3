@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useMemo } from "react";
 import { generateScatterPlot, useScatterPlotData } from "./utils/index.js";
 
 export const ScatterPlot = () => {
   const { data, isLoading } = useScatterPlotData();
 
+  const memoizedData = useMemo(() => data, [data]);
+
   useEffect(() => {
-    !isLoading && generateScatterPlot(data, "scatter-plot");
-  }, [isLoading]);
+    if (!isLoading) {
+      generateScatterPlot(memoizedData, "scatter-plot");
+    }
+  }, [isLoading, memoizedData]);
 
   return <svg id="scatter-plot" />;
 };
