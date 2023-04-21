@@ -27,7 +27,7 @@ let {
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
-
+//transitionEase
 const generateMenu = (selection, id, label, callback) => {
   selection
     .selectAll("label")
