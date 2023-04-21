@@ -28,7 +28,7 @@ export const config = {
 const columnToLabel = new Map(
   config.columns.map(({ value, label }) => [value, label])
 );
-console.log(columnToLabel);
+// console.log(columnToLabel); // can be changed to a comment
 
 export const csvUrl = [
   "https://gist.githubusercontent.com/",
@@ -47,18 +47,11 @@ export const parseRow = (d) => ({
 });
 
 export const getMainData = async (setPlotData) => {
-  const data = await csv(csvUrl, parseRow);
-
-  setPlotData({ data, isLoading: false });
+  try {
+    const data = await csv(csvUrl, parseRow);
+    setPlotData({ data, isLoading: false });
+  } catch (error) {
+    console.error(error);
+    setPlotData({ data: [], isLoading: false });
+  }
 };
-
-// export const csvUrl =
-//   "https://raw.githubusercontent.com/curran/data/gh-pages/dspl/countries.csv";
-
-// export const parseRow = (d) => ({
-//   sepalLength: +d.latitude,
-//   sepalWidth: +d.longitude,
-//   petalLength: +d.longitude,
-//   petalWidth: +d.longitude,
-//   species: d.species,
-// });
