@@ -27,17 +27,14 @@ let {
 const positionSymbols = (selection) => {
   selection.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
 };
-//transitionEase
-const generateMenu = (selection, id, label, callback) => {
-  selection
-    .selectAll("label")
-    .data([null])
-    .join("label")
-    .attr("for", id)
-    .text(label);
 
-  const selectInput = selection
-    .selectAll("select")
+const generateMenu = ({ selection, id, label, callback, columns }) => {
+  const labels = selection.selectAll("label");
+  const selectInputs = selection.selectAll("select");
+
+  labels.data([null]).join("label").attr("for", id).html(label);
+
+  const selectInput = selectInputs
     .data([null])
     .join("select")
     .attr("name", id)
@@ -46,12 +43,14 @@ const generateMenu = (selection, id, label, callback) => {
       callback(event.target.value);
     });
 
+  const options = columns.map((d) => d.value);
+
   selectInput
     .selectAll("option")
-    .data(columns)
+    .data(options)
     .join("option")
-    .attr("value", (d) => d.value)
-    .text((d) => d.label);
+    .attr("value", (d) => d)
+    .html((d) => d.label);
 };
 
 export const generateScatterPlot = (data, id) => {
