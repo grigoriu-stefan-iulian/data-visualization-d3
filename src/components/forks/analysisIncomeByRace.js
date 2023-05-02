@@ -72,7 +72,7 @@ export const scatterPlot = () => {
           height - margin.bottom + axisPadding
         })`
       )
-      .call(axisBottom(xScale).tickValues([new Date(2000)]))
+      .call(axisBottom(xScale).tickValues(data.map(d => d[xValue])))
 
     const yAxis = selection
       .selectAll('.y-axis')
