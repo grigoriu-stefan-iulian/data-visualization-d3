@@ -53,14 +53,19 @@ export const scatterPlot = () => {
 
     const t = transition().duration(1000);
 
+    const jitterMagnitude = 10;
+    const addJitter = (n) => {
+      return n + Math.random() * jitterMagnitude - jitterMagnitude / 2;
+    };
+
     const positionCircles = (circles) => {
       circles
-        .attr("cx", (d) => d.x + Math.random() * 10)
-        .attr("cy", (d) => d.y + Math.random() * 10);
+        .attr("cx", (d) => addJitter(d.x))
+        .attr("cy", (d) => addJitter(d.y));
     };
 
     const colorCircles = (circles) => {
-      circles.attr("fill", (d) => color(d.color)).style("fill-opacity", 0.5);
+      circles.attr("fill", (d) => color(d.color)).style("fill-opacity", 0.2);
     };
 
     const initializeRadius = (circles) => {
