@@ -1,4 +1,4 @@
-import { csv, select } from "d3";
+import { csv, select, timeParse } from "d3";
 import { scatterPlot } from "./scatterPlot";
 import { menu } from "./menu";
 
@@ -9,7 +9,7 @@ const parseRow = (d) => {
   d.longitude = +d.longitude;
   d.latitude = +d.latitude;
   d.area_hectares = +d.area_hectares;
-  d.date_inscribed = +d.date_inscribed;
+  d.date_inscribed = timeParse("%Y")(d.date_inscribed);
   return d;
 };
 
@@ -66,7 +66,8 @@ const main = async () => {
     {
       value: "date_inscribed",
       text: "Date Inscribed",
-      type: "quantitative",
+      type: "time",
+      timeFormat: "%Y",
     },
   ];
 

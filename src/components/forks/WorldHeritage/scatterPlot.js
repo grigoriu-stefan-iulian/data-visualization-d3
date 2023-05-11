@@ -20,18 +20,27 @@ export const scatterPlot = () => {
   let margin;
   let radius;
 
-  const my = (selection) => {
-    const x = (
-      xType === "categorical"
-        ? scalePoint().domain(data.map(xValue)).padding(0.2)
-        : scaleLinear().domain(extent(data, xValue))
-    ).range([margin.left, width - margin.right]);
+  const dataTypeToScaleX = {
+    categorical: scalePoint().domain(data.map(xValue)).padding(0.2),
+    numerical: scaleLinear().domain(extent(data, xValue)),
+    time: scaleTime().domain(extent(data, xValue)),
+  };
 
-    const y = (
-      yType === "categorical"
-        ? scalePoint().domain(data.map(yValue)).padding(0.2)
-        : scaleLinear().domain(extent(data, yValue))
-    ).range([height - margin.bottom, margin.top]);
+  const dataTypeToScaleY = {
+    categorical: scalePoint().domain(data.map(yValue)).padding(0.2),
+    numerical: scaleLinear().domain(extent(data, yValue)),
+    time: scaleTime().domain(extent(data, yValue)),
+  };
+
+  const my = (selection) => {
+    const x = dataTypeToScaleX[xType].range([
+      margin.left,
+      width - margin.right,
+    ]);
+    const y = dataTypeToScaleY[yType].range([
+      height - margin.bottom,
+      margin.top,
+    ]);
 
     const colorsRainbow = [
       "#59B371",
