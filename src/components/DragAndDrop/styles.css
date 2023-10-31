@@ -1,0 +1,45 @@
+.drag-and-drop-component {
+  display: flex;
+  justify-content: space-around;
+}
+
+.widgets-container {
+  border: 1px solid blue;
+}
+
+.widget {
+  width: 200px;
+  height: 50px;
+  margin: 10px 0;
+  background-color: aqua;
+  border: 1px solid grey;
+}
+
+.drop-area {
+  width: 300px;
+  min-height: 60vh;
+  height: fit-content;
+  border: 1px solid greenyellow;
+  /* background-image: linear-gradient(to bottom, transparent 50%, #e2edfd 50%),
+    linear-gradient(to right, #ffd57b 50%, #e2edfd 50%);
+  background-size:
+    100px 120px,
+    120px 100px; */
+
+  background-size: 120px 120px;
+  background-image: conic-gradient(
+    black 90deg,
+    #fff5d3 90deg 180deg,
+    
+    black 180deg 270deg,
+    #fff5d3 270deg
+  );
+}
+
+.dropped-widget {
+  width: 200px;
+  height: 50px;
+  margin: 10px 0;
+  background-color: rgb(140, 143, 143);
+  border: 1px solid grey;
+}

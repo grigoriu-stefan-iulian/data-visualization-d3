@@ -5,8 +5,6 @@ import styles from "./Counter.module.css";
 
 export const AverageSalaryGraph = () => {
   const svgRef = useRef();
-
-  useEffect(() => {
     let salaries = [
       { year: 2015, salary: 4500 },
       { year: 2016, salary: 4800 },
@@ -15,6 +13,7 @@ export const AverageSalaryGraph = () => {
       { year: 2019, salary: 7300 },
     ];
 
+  useEffect(() => {
     // create a d3 selection out of the svg reference
     const svg = select(svgRef.current);
 
