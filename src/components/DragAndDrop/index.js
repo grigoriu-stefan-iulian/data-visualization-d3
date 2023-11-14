@@ -40,6 +40,40 @@ export function DragAndDropComponent() {
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    const draggedItemId = e.dataTransfer.getData("text/plain");
+    const draggedItem = selectedWidgets.find(
+      (item) => item.id === draggedItemId,
+    );
+
+    if (draggedItem) {
+      const boundingClientRect = e.target.getBoundingClientRect();
+      const mouseY = e.clientY - boundingClientRect.top;
+
+      // Calculate the index based on the mouse position and varying item heights
+      const index = selectedWidgets.reduce(
+        (acc, item, i) => {
+          const itemTop = acc.totalHeight;
+          const itemBottom =
+            itemTop + boundingClientRect.height / selectedWidgets.length; // Assuming equal heights
+
+          acc.totalHeight = itemBottom;
+
+          if (mouseY >= itemTop && mouseY <= itemBottom) {
+            acc.index = i;
+          }
+
+          return acc;
+        },
+        { index: -1, totalHeight: 0 },
+      ).index;
+
+      // Move the dragged item to the calculated index
+      const updatedItems = selectedWidgets.filter(
+        (item) => item.id !== draggedItemId,
+      );
+      updatedItems.splice(index, 0, draggedItem);
+      setSelectedWidgets(updatedItems);
+    }
   };
 
   const handleOnDelete = (widgetIndex) => {
@@ -70,6 +104,7 @@ export function DragAndDropComponent() {
       >
         {selectedWidgets.map((widgetType, index) => (
           <WidgetItem
+            handleOnDrag={handleOnDrag}
             key={index}
             index={index}
             widgetType={widgetType}
@@ -81,9 +116,13 @@ export function DragAndDropComponent() {
   );
 }
 
-function WidgetItem({ index, widgetType, handleOnDelete }) {
+function WidgetItem({ index, widgetType, handleOnDelete, handleOnDrag }) {
   return (
-    <div className="dropped-widget">
+    <div
+      draggable
+      onDragStart={(e) => handleOnDrag(e, widgetType)}
+      className="dropped-widget"
+    >
       {widgetTypeReduced[widgetType].name}
       <button onClick={handleOnDelete(index)}>Delete</button>
     </div>
