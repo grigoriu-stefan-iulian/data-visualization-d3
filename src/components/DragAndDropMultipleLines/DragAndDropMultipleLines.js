@@ -89,7 +89,7 @@ export const DragAndDropMultipleLines = () => {
 
       const updatedItems = [...items];
       updatedItems.splice(index, 1);
-      const newIndex = Math.floor(mouseY / 100); // Adjust this value based on your item height
+      const newIndex = Math.floor(mouseY / 60); // Adjust this value based on your item height
       updatedItems.splice(newIndex, 0, draggedItem);
 
       setItems(updatedItems);
